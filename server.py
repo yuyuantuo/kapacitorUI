@@ -86,7 +86,7 @@ def add():
   content = begining + fro + group + window + eva + alert + detail + detail2
   print content
   print ip
-  cursor.execute('insert into kapacitor_config values ('a','b','c')')  
+  cursor.execute('insert into kapacitor_config values ("a","b","c")')  
   conn.commit()
   conn.close()
   return redirect('/')
