@@ -83,7 +83,9 @@ def add():
   alert = '    .alert()\n        .id(\'kapacitor/{{ .TaskName }}' + group2 + '\')\n        // Email subject\n        .message(\'[{{ .Level }}] {{ .ID }}\')\n        //Email body as HTML\n        .details(\'\'\'\n'
   detail = 'This is an auto generated email from Kapacitor. <br><br>\n\nKapacitor detects ' + description + ' on host <b>{{ index .Tags "host" }}</b>. <br><br>\n\n' + warn + ' is <b>{{ index .Fields \"' + warn + '\" }}</b>. <br>\n[WARNING] if ' + warn_sign + ' than ' + warn_value + ', and [CRITICAL] if ' + crit_sign + ' than ' + crit_value + '. <br><br>\n\n'
   detail2 = 'Data source: influxdb (database=\'' + database + '\', measurement=\'{{ .Name }}\')\n\'\'\')\n        .warn(lambda: \"' + warn + '\" ' + warn_cond + ' ' + warn_value + ')\n        .crit(lambda: \"' + crit + '\" ' + crit_cond + ' ' + crit_value + ')\n        .log(\'/tmp/kapacitor_' + alert_name + '.log\')\n        .email(\'' + email + '\')'
-  print begining + fro + group + window + eva + alert + detail + detail2
+  content = begining + fro + group + window + eva + alert + detail + detail2
+  print content
+  cursor.execute("insert into kapacitor_config values ('%s','%s','%s');",(alert_name,ip,content))
   return redirect('/')
 
 if __name__ == "__main__":
