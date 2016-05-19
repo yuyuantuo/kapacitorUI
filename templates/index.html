@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <style>
+      #map {
+        height: 500px;
+        weight: 400px;
+      }
+    </style>
+    <link rel="icon" href="../../favicon.ico">
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" >
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"> </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Kapacitor UI</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="/">Home</a>
+            </li>
+        
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h2>Option with * cannot be blank</h2>
+        
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <form class="navbar-form navbar-right" name="myform" method="POST" action="/add">
+            <div class="form-group">
+              <input type="text" name="description" placeholder="Alert if" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="alert_name" placeholder="Alert name" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="database" placeholder="Database" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="measurement" placeholder="Measurement" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="constraint" placeholder="Constraint" class="form-control">
+              <p>e.g. lambda: "type_instance" == 'free'</p>
+            </div>
+            <div class="form-group">
+              <input type="text" name="groupBy" placeholder="Group by" class="form-control"> 
+            </div>
+            <div class="form-group">
+              <input type="text" name="period" placeholder="period (min)" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" name="every" placeholder="every (min)" class="form-control">
+            </div>
+            <fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
+              <div data-role="fieldcontain">
+                <input type="text" name="evaluation" placeholder="Evaluation" class="form-control"> as
+              </div>
+              <div data-role="fieldcontain">
+                <input type="text" name="evaluation2" placeholder="Evaluation2" class="form-control">
+              </div>
+              <p>e.g. lambda: "value" / 1073741824.0 as value_in_GB</p>
+            </fieldset>
+            <div class="form-group">
+              <input type="text" name="warn" placeholder="warn" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="warn_cond" placeholder="condition" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="warn_value" placeholder="value" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="crit" placeholder="crit" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="crit_cond" placeholder="condition" class="form-control"> *
+            </div>
+            <div class="form-group">
+              <input type="text" name="crit_value" placeholder="value" class="form-control"> *
+            </div>
+        
+            <div class="form-group">
+              <input type="email" name="email" placeholder="Email" class="form-control"> *
+            </div><br>
+         
+            <div class="form-group">
+              <button type="submit" class="btn btn-success">Generate</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+      <hr>
+
+      <footer>
+        <p>Kapacitor UI 2016 Summer</p>
+      </footer>
+    </div> <!-- /container -->
+            
+  </body>
+</html>
