@@ -86,8 +86,9 @@ def add():
   content = begining + fro + group + window + eva + alert + detail + detail2
   print content
   print ip
-  #cursor.execute("insert into kapacitor_config values ('%s','%s','%s');", (alert_name,ip,content))
-  cursor.execute("insert into kapacitor_config values ('a','b','c');")  
+  sql = """insert into kapacitor_config (alert_name,ip,content) values ('%s','%s','%s')""" %(alert_name,ip,content)
+  cursor.execute(sql)  
+  cursor.commit()
   cursor.close()
   return redirect('/')
 
