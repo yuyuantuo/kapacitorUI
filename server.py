@@ -86,7 +86,7 @@ def add():
   content = begining + fro + group + window + eva + alert + detail + detail2
   print content
   print ip
-  sql = """insert into kapacitor_config (alert_name,ip,content) values ('%s','%s','%s')""" %(alert_name,ip,content)
+  sql = """insert into kapacitor_config (alert_name,ip,content) values ('a','b','c')"""
   cursor.execute(sql)  
   cursor.commit()
   cursor.close()
