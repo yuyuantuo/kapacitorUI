@@ -1,7 +1,6 @@
 import os
 from flask import Flask, request, render_template, g, redirect, Response
 from flask import session
-from flask.ext.mysql import MySQL
 import socket
 import MySQLdb
 
@@ -10,7 +9,7 @@ tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
 print 'a'
-conn = MySQLdb.connect("52.76.232.200","monitoruser","monitorpass","monitor")
+conn = MySQLdb.connect("localhost","monitoruser","monitorpass","monitor")
 print 'b'
 cursor = conn.cursor()
 
