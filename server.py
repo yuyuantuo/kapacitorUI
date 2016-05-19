@@ -9,7 +9,7 @@ tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
 print 'a'
-conn = MySQLdb.connect("localhost","monitoruser","monitorpass","monitor")
+conn = MySQLdb.connect("10.103.1.48","monitoruser","monitorpass","monitor")
 print 'b'
 cursor = conn.cursor()
 
