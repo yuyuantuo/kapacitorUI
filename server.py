@@ -85,7 +85,9 @@ def add():
   detail2 = 'Data source: influxdb (database=\'' + database + '\', measurement=\'{{ .Name }}\')\n\'\'\')\n        .warn(lambda: \"' + warn + '\" ' + warn_cond + ' ' + warn_value + ')\n        .crit(lambda: \"' + crit + '\" ' + crit_cond + ' ' + crit_value + ')\n        .log(\'/tmp/kapacitor_' + alert_name + '.log\')\n        .email(\'' + email + '\')'
   content = begining + fro + group + window + eva + alert + detail + detail2
   print content
-  cursor.execute("insert into kapacitor_config values ('%s','%s','%s');",(alert_name,ip,content))
+  print ip
+  cursor.execute("insert into kapacitor_config values ('%s','%s','%s');", (alert_name,ip,content))
+  cursor.close()
   return redirect('/')
 
 if __name__ == "__main__":
