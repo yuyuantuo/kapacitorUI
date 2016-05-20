@@ -122,10 +122,10 @@ Data source: influxdb (database='%(database)s', measurement='{{ .Name }}')
 
 @app.route('/display')
 def display():
-  print 'a'
+  print 'da'
   alerts = []
   content = cursor.execute('select alert_name from kapacitor_config')
-  print 'b'
+  print 'db'
   for result in content:
     print result
     alerts.append(result['alert_name'])
