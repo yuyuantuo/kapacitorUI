@@ -120,6 +120,19 @@ Data source: influxdb (database='%(database)s', measurement='{{ .Name }}')
   conn.close()
   return redirect('/')
 
+@app.route('/display')
+def display():
+  alerts = []
+  content = cursor.execute('select alert_name from kapacitor_config')
+  for result in content:
+    alerts.append(result['alert_name'])
+  print 'a'
+  conn.commit()
+  conn.close()
+
+  context = dict(data = alerts)
+  return render_template("display.html", **context)
+
 if __name__ == "__main__":
   import click
 
