@@ -125,6 +125,7 @@ def display():
   print 'a'
   alerts = []
   content = cursor.execute('select alert_name from kapacitor_config')
+  print 'b'
   for result in content:
     print result
     alerts.append(result['alert_name'])
