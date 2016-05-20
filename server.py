@@ -112,9 +112,10 @@ Data source: influxdb (database='%(database)s', measurement='{{ .Name }}')
         .email('%(email)s')"""
 
   content = template % locals()
-  print content
+  ctt = conn.escape_string(content)
+  print ctt
   print ip
-  cursor.execute('insert into kapacitor_config values ("%s","%s","%s")' %(str(alert_name),str(ip),str(content))) 
+  cursor.execute('insert into kapacitor_config values ("%s","%s","%s")' %(str(alert_name),str(ip),str(ctt))) 
   conn.commit()
   conn.close()
   return redirect('/')

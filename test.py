@@ -73,8 +73,7 @@ def add():
 
   if evaluation != '':
     eva = '    .eval(' + evaluation + ')\n        .as(\'' + evaluation2 + '\')\n'
-  template = """
-// alert if %(description)s
+  template = """// alert if %(description)s
 //
 // how to run:
 //  $kapacitor define -name %(alert_name)s -type stream -dbrp %(database)s.default -tick /work/kapacitor/%(alert_name)s.tick
@@ -107,7 +106,7 @@ Data source: influxdb (database='%(database)s', measurement='{{ .Name }}')
         .email('%(email)s')"""
 
   content = template % locals()
-  print content
+  print content.escape_string()
   print ip
   with open("new.txt","w") as f:
     f.write(content)
