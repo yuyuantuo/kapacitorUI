@@ -8,11 +8,6 @@ ip = socket.gethostbyname(socket.gethostname())
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
-print 'a'
-conn = MySQLdb.connect("10.103.1.48","monitoruser","monitorpass","monitor")
-print 'b'
-cursor = conn.cursor()
-
 @app.route('/')
 def index():
   """
@@ -78,8 +73,8 @@ def add():
 
   if evaluation != '':
     eva = '    .eval(' + evaluation + ')\n        .as(\'' + evaluation2 + '\')\n'
-  
-  template = """// alert if %(description)s
+  template = """
+// alert if %(description)s
 //
 // how to run:
 //  $kapacitor define -name %(alert_name)s -type stream -dbrp %(database)s.default -tick /work/kapacitor/%(alert_name)s.tick
@@ -114,9 +109,9 @@ Data source: influxdb (database='%(database)s', measurement='{{ .Name }}')
   content = template % locals()
   print content
   print ip
-  cursor.execute('insert into kapacitor_config values ("%s","%s","%s")' %(str(alert_name),str(ip),str(content))) 
-  conn.commit()
-  conn.close()
+  with open("new.txt","w") as f:
+    f.write(content)
+
   return redirect('/')
 
 if __name__ == "__main__":

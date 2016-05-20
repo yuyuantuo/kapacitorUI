@@ -1,0 +1,39 @@
+
+// alert if aaa
+//
+// how to run:
+//  $kapacitor define -name deep_alert -type stream -dbrp monitoring.default -tick /work/kapacitor/deep_alert.tick
+//  $kapacitor enable deep_alert
+//
+
+stream
+    .from()
+        .database('monitoring')
+        .retentionPolicy('default')
+        .measurement('copy_files')
+        .where(a<50)
+    .groupBy('host')
+    .window()
+        .period(5m)
+        .every(5m)
+    .eval(b/1000)
+        .as('db_value')
+    .alert()
+        .id('kapacitor/{{ .TaskName }}: {{ .Group }}')
+        // Email subject
+        .message(\[{{ .Level }}] {{ .ID }}')
+        //Email body as HTML
+        .details('''
+This is an auto generated email from Kapacitor. <br><br>
+
+Kapacitor detects aaa on host <b>{{ index .Tags "host" }}</b>. <br><br>
+
+file_copy is <b>{{ index .Fields "file_copy" }}</b>. <br>
+[WARNING] if larger than 100, and [CRITICAL] if smaller than 50. <br><br>
+
+Data source: influxdb (database='monitoring', measurement='{{ .Name }}')
+''')
+        .warn(lambda: "file_copy" > 100)
+        .crit(lambda: "file_copy" < 50)
+        .log('/tmp/kapacitor_deep_alert.log')
+        .email('yuyuantuo@gmail.com')
