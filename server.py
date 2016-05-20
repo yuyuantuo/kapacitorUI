@@ -124,10 +124,10 @@ Data source: influxdb (database='%(database)s', measurement='{{ .Name }}')
 def display():
   print 'da'
   alerts = []
-  content = cursor.execute('select alert_name from kapacitor_config')
-  print 'db'
+  cursor.execute('select alert_name from kapacitor_config')
+  content = cursor.fetchall()
   for result in content:
-    print result
+    print result[0]
     alerts.append(result['alert_name'])
   print 'a'
   conn.commit()
