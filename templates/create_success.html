@@ -8,9 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <style>
-      #map {
-        height: 500px;
-        weight: 400px;
+      pre{
+        width: 1000px;
       }
     </style>
     <link rel="icon" href="../../favicon.ico">
@@ -45,7 +44,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active">
-              <a href="/">Home</a>
+              <a href="/display">Display</a>
             </li>
         
         </div><!--/.navbar-collapse -->
@@ -55,7 +54,7 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h2>Please choose the alert you want to see</h2>
+        <h2>Success!</h2>
         
       </div>
     </div>
@@ -65,9 +64,9 @@
       <div class="row">
         <div class="col-md-4">
             <div>
-              {% for n in data %}
-              <div><a href="/display/{{n}}">{{n}}</a></div>
-              {% endfor %}
+              
+         
+
             </div>
 
           </form>

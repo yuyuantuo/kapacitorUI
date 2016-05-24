@@ -3,10 +3,12 @@ from flask import Flask, request, render_template, g, redirect, Response
 from flask import session
 import socket
 import MySQLdb
+from HTMLParser import HTMLParser
 
 ip = socket.gethostbyname(socket.gethostname())
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
+app.secret_key = os.urandom(24)
 
 print 'a'
 conn = MySQLdb.connect("10.103.1.48","monitoruser","monitorpass","monitor")
@@ -56,14 +58,21 @@ def add():
   crit_value=request.form['crit_value']
   email=request.form['email']
 
-  if constraint != '':
+  cursor.execute('select alert_name from kapacitor_config')
+  content = cursor.fetchall()
+  for result in content:
+    if result[0] == alert_name or not description or not alert_name or not database or not measurement or not warn or not warn_cond or not warn_value or not crit or not crit_cond or not crit_value or not email:
+      return redirect('/create_fail')
+  conn.commit()
+
+  if constraint:
     where = '        .where(' + constraint + ')\n'
 
-  if groupBy != '':
+  if groupBy:
     group = '    .groupBy(\'' + groupBy + '\')\n'
     group2 = ': {{ .Group }}'
 
-  if period != '' and every !='':
+  if period and every:
     window = '    .window()\n        .period(' + period + 'm)\n        .every(' + every + 'm)\n'
 
   if warn_cond == '>':
@@ -76,7 +85,7 @@ def add():
   elif crit_cond == '<':
     crit_sign = 'smaller'
 
-  if evaluation != '':
+  if evaluation:
     eva = '    .eval(' + evaluation + ')\n        .as(\'' + evaluation2 + '\')\n'
   
   template = """// alert if %(description)s
@@ -115,26 +124,54 @@ Data source: influxdb (database='%(database)s', measurement='{{ .Name }}')
   ctt = conn.escape_string(content)
   print ctt
   print ip
-  cursor.execute('insert into kapacitor_config values ("%s","%s","%s")' %(str(alert_name),str(ip),str(ctt))) 
+
+  cursor.execute('insert into kapacitor_config (alert_name,ip,content) values ("%s","%s","%s")' %(str(alert_name),str(ip),str(ctt))) 
   conn.commit()
-  conn.close()
-  return redirect('/')
+  
+  return redirect('/create_success')
+
+@app.route('/create_success')
+def create_success():
+  return render_template("create_success.html")
+
+@app.route('/create_fail')
+def create_fail():
+  return render_template("create_fail.html")
 
 @app.route('/display')
 def display():
-  print 'da'
   alerts = []
   cursor.execute('select alert_name from kapacitor_config')
   content = cursor.fetchall()
+  print content
   for result in content:
     print result[0]
-    alerts.append(result['alert_name'])
-  print 'a'
+    alerts.append(result[0])
   conn.commit()
-  conn.close()
 
   context = dict(data = alerts)
   return render_template("display.html", **context)
+
+@app.route('/display/<alert_name>')
+def detail(alert_name):
+  cursor.execute('select content from kapacitor_config where alert_name = "%s"' %alert_name)
+  result = cursor.fetchone()
+  content = result[0]
+  session['alert_name'] = alert_name
+  context = dict(data = content)
+  conn.commit()
+  return render_template("detail.html", **context)
+
+@app.route('/change', methods = ['POST'])
+def save_change():
+  
+  change = request.form['myTxt']
+  change_fix = HTMLParser().unescape(change)
+  print change_fix
+  esc_change = conn.escape_string(change_fix)
+  cursor.execute('update kapacitor_config set content = "%s" where alert_name = "%s"' %(esc_change,session['alert_name']))
+  conn.commit()
+  return redirect('/display/%s' %session['alert_name'])
 
 if __name__ == "__main__":
   import click
